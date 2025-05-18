@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Comprehensive Rizal Reviewer – Exam</title>
+<style>
+  body{font-family:sans-serif;margin:0 auto;max-width:880px;padding:1rem}
+  #card{border:1px solid #ccc;border-radius:6px;padding:20px}
+  .options label{display:block;margin:6px 0;cursor:pointer}
+  .feedback{margin-top:12px;font-weight:bold}
+  .correct{color:green}
+  .incorrect{color:red}
+  button{margin:10px 6px;padding:8px 20px;font-size:15px;cursor:pointer}
+  #navBtns{margin-top:20px}
+</style>
+</head>
+<body>
+
+<h1>Comprehensive Rizal Reviewer – Exam</h1>
+
+<div id="card"></div>
+
+<div id="navBtns">
+  <button id="prevBtn" onclick="prevQ()">Prev</button>
+  <button id="nextBtn" onclick="nextQ()">Next</button>
+  <button id="finishBtn" onclick="finishExam()">Finish Exam</button>
+</div>
+
+<div id="results"></div>
+
+<script>
+// -------------- QUESTION BANK (60 items) --------------
+const questionBank = [
+// ========= LESSON 1 • RIZAL LAW (20 qs) =========
+{q:"What Republic Act mandates the teaching of Rizal’s life and works in Philippine schools?",o:["RA 1425","RA 3046","RA 7719","RA 9163"],a:"RA 1425",e:"RA 1425, popularly called the Rizal Law, institutionalizes the study of Rizal in all schools."},
+{q:"Who authored Senate Bill No. 438 that became the Rizal Law?",o:["Sen. Claro M. Recto","Sen. Jose P. Laurel","Sen. Lorenzo Tañada","Sen. Camilo Osías"],a:"Sen. Claro M. Recto",e:"Recto penned the bill; Laurel later refined it in conference."},
+{q:"Which president signed RA 1425 into law?",o:["Carlos P. Garcia","Ramon Magsaysay","Elpidio Quirino","Manuel Roxas"],a:"Ramon Magsaysay",e:"He signed it on June 12 1956, Independence Day."},
+{q:"Date of signing of the Rizal Law:",o:["June 19 1956","August 30 1955","June 12 1956","December 30 1955"],a:"June 12 1956",e:"It deliberately coincided with Independence Day."},
+{q:"Which two Rizal novels are explicitly required reading under RA 1425?",o:["Noli Me Tangere & El Filibusterismo","El Filibusterismo & Mi Último Adiós","Noli Me Tangere & La Solidaridad","Amor Patrio & Noli Me Tangere"],a:"Noli Me Tangere & El Filibusterismo",e:"Sections 1–2 of the law emphasize the two novels."},
+{q:"The strongest opposition to the bill came from:",o:["Nationalists","The Spanish Embassy","The Catholic Church","American educators"],a:"The Catholic Church",e:"Clergy argued the novels were anti-clerical."},
+{q:"Which senator drafted the compromise clause allowing religious exemptions?",o:["Jose P. Laurel","Domingo Imperial","Claro M. Recto","Roseller Lim"],a:"Jose P. Laurel",e:"Laurel’s committee inserted the opt-out provision."},
+{q:"One objective of RA 1425 is to ‘develop moral character and …’",o:["military discipline","patriotic citizenship","scientific outlook","economic skills"],a:"patriotic citizenship",e:"The preamble stresses citizenship and nationalism."},
+{q:"Senators Cuenco, Rosales, and Rodrigo opposed the bill mainly because:",o:["Cost of textbooks","Lack of teachers","Anti-church passages","Overlap with history"],a:"Anti-church passages",e:"They echoed bishops’ objections to the novels."},
+{q:"The law directs the Board of National Education to:",o:["Censor sensitive passages","Translate the novels into English & Filipino","Publish cheap editions","All of the above"],a:"All of the above",e:"Section 3 orders translation, publication and distribution."},
+{q:"Under the compromise, students objecting on faith grounds must:",o:["Write a term paper instead","Read expurgated versions","Present a parental waiver","Attend class but not read the novels"],a:"Read expurgated versions",e:"They may use versions without passages offensive to faith."},
+{q:"Which document **does not** name Rizal as National Hero?",o:["RA 1425","EO 75 (1993)","Batas Pambansa No. 17","None—there is no such law"],a:"None—there is no such law",e:"No Philippine statute formally declares national heroes."},
+{q:"Rizal qualifies as a hero chiefly because of:",o:["His military exploits","Contributions to nation-building","Wealth donated to charity","Winning elections"],a:"Contributions to nation-building",e:"The Technical Committee (1993) set criteria he meets."},
+{q:"‘Rizal Law’ is officially titled:",o:["An Act to Include a Course on Rizal","An Act Providing Free Novels","National Hero Act","Public Education Modernization Act"],a:"An Act to Include a Course on Rizal",e:"Its full title specifies inclusion of Rizal’s life and writings."},
+{q:"What government agency monitors implementation of RA 1425 today?",o:["CHED","NCCA","DepEd","Both CHED and DepEd"],a:"Both CHED and DepEd",e:"Higher- and basic-ed each issue guidelines for compliance."},
+{q:"One argument **for** the bill was that it would:",o:["Undermine religion","Foment revolt","Foster civic virtues","Raise tuition"],a:"Foster civic virtues",e:"Proponents highlighted moral and civic education."},
+{q:"Opponents predicted the law would:",o:["Reduce church attendance","Improve Spanish fluency","Depress book sales","Increase agricultural output"],a:"Reduce church attendance",e:"They feared faith erosion through anti-friar content."},
+{q:"Recto insisted the state must:",o:["Limit historical study","Respect clerical censorship","Control moral teaching","Produce citizens before devotees"],a:"Produce citizens before devotees",e:"He argued national loyalty supersedes religious loyalty."},
+{q:"After passage, implementation was delayed mainly because of:",o:["Budget issues","Textbook shortages","No syllabi","Continued church lobbying"],a:"Textbook shortages",e:"Cheap, translated editions had to be printed first."},
+{q:"The law indirectly promotes which constitutional principle?",o:["Freedom of expression","Compulsory ROTC","Separation of powers","Economic protectionism"],a:"Freedom of expression",e:"It safeguards the right to read works once banned."},
+
+// ========= LESSON 2 • 19TH-C PHILIPPINES (20 qs) =========
+{q:"‘Frailocracy’ refers to:",o:["Rule by Spanish friars","British colonial policy","Chinese merchant guild","Native principalia"],a:"Rule by Spanish friars",e:"Friars dominated civil & religious affairs."},
+{q:"Which global movement popularized liberty & equality that reached Filipino ilustrados?",o:["Romanticism","Age of Enlightenment","Surrealism","Realpolitik"],a:"Age of Enlightenment",e:"European liberal ideas influenced reformists."},
+{q:"What 1863 decree reformed Philippine education?",o:["Decree of 1847","Maura Decree","Decree of 1863","Jones Law"],a:"Decree of 1863",e:"It mandated free primary schooling for boys & girls."},
+{q:"Medium of instruction under the Spanish-run escuela primaria:",o:["Filipino","Latin","Spanish","English"],a:"Spanish",e:"But few Indios mastered it; friars still lectured in vernacular."},
+{q:"Which social class arose due to opening of Manila’s ports?",o:["Ilustrado middle class","Peasant proletariat","Friar encomenderos","Chinese coolies"],a:"Ilustrado middle class",e:"Trade profits enabled Filipino families to study abroad."},
+{q:"GomBurZa were executed after which event?",o:["Cry of Balintawak","Cavite Mutiny 1872","Battle of Manila Bay","First Propaganda Congress"],a:"Cavite Mutiny 1872",e:"Spanish authorities blamed the secular priests."},
+{q:"One effect of the encomienda system was:",o:["Land redistribution to peasants","Friar hacienda expansion","Indio representation in Cortes","Abolition of tributes"],a:"Friar hacienda expansion",e:"Large friar estates displaced native farmers."},
+{q:"Which Asian conflict showed Western imperial power and kept Rizal alert to regional events?",o:["Sino-Japanese War","Opium War","Taiping Rebellion","Boxer Uprising"],a:"Opium War",e:"Britain’s victory over China exposed colonial realities."},
+{q:"The American Civil War’s relevance to Filipinos lay in:",o:["Cotton shortage raising sugar prices","Sending troops to Philippines","Abraham Lincoln’s visit","None at all"],a:"Cotton shortage raising sugar prices",e:"Planters profited, spurring export agriculture."},
+{q:"‘Sepoy Mutiny’ led to:",o:["French rule in India","British Crown Rule replacing EIC","American annexation","Mughal restoration"],a:"British Crown Rule replacing EIC",e:"1857 revolt caused direct colonial governance."},
+{q:"Racism in colonial schools was evident because:",o:["Indios barred from Latin","Separate classrooms","No exams for natives","Public canings only for Spaniards"],a:"Separate classrooms",e:"Indio & Mestizo pupils were segregated or given menial tasks."},
+{q:"A key grievance of secular Filipino clergy was:",o:["High stipends","Forced celibacy","Denial of parish posts","Tax exemption"],a:"Denial of parish posts",e:"Regular orders blocked secular priests from benefices."},
+{q:"Philippine export crop that surged after Suez Canal (1869):",o:["Rice","Coffee","Abacá","Cacao"],a:"Abacá",e:"Hemp demand rose with easier shipping to Europe."},
+{q:"Lack of academic freedom in UST caused Rizal to:",o:["Transfer to San Carlos","Quit school entirely","Write satirical poems","Study externally in Madrid"],a:"Study externally in Madrid",e:"He sought liberal education abroad."},
+{q:"Which idea from Enlightenment most shaped Rizal’s reformism?",o:["Divine right of kings","Mercantilism","Social contract & rights","Geocentrism"],a:"Social contract & rights",e:"He argued Spain had broken its moral compact with Filipinos."},
+{q:"Friar dominance of local elections meant that:",o:["Gobernadorcillos were usually Chinese","Indios held majority seats","Priests chose town officials","No elections occurred"],a:"Priests chose town officials",e:"They influenced or vetoed village votes."},
+{q:"The ‘3 Rs’ in Spanish-era curricula stand for:",o:["Religion, Rhetoric, Revolution","Reading, Writing, Arithmetic","Rizal, Religion, Reason","Relief, Reform, Reciprocity"],a:"Reading, Writing, Arithmetic",e:"Basic literacy was the limited goal."},
+{q:"Which liberal Spanish constitution briefly promised equality in colonies?",o:["Cadiz 1812","Bayonne 1808","Malolos 1899","Weimar 1919"],a:"Cadiz 1812",e:"Rizal cited it to argue for Filipino rights."},
+{q:"Ilustrados first read European newspapers mainly in:",o:["Singapore","Hong Kong","Madrid","Manila"],a:"Hong Kong",e:"Trans-shipment hubs brought liberal periodicals."},
+{q:"A direct cause of Indio inferiority stereotype was:",o:["Darwin’s theory misuse","Failure in agriculture","Spanish inter-marriage","Religious zeal"],a:"Darwin’s theory misuse",e:"Social Darwinism was twisted to rank races."},
+
+// ========= LESSON 3 • EARLY LIFE (20 qs) =========
+{q:"Where was Jose Rizal born?",o:["Malolos, Bulacan","Calamba, Laguna","Binondo, Manila","Vigan, Ilocos"],a:"Calamba, Laguna",e:"He was born in Calamba on June 19 1861."},
+{q:"Rizal’s full baptismal name begins with:",o:["Jose Protacio","Jose Protasio","Jose Procopio","Juan Protacio"],a:"Jose Protacio",e:"The correct spelling is ‘Protacio’."},
+{q:"Which parent first taught him the alphabet and prayers?",o:["Francisco","Teodora","Paciano","Saturnina"],a:"Teodora",e:"His mother was his earliest teacher."},
+{q:"Paciano is portrayed in *Noli Me Tangere* as:",o:["Crisostomo Ibarra","Pilosopo Tasyo","Elias","Kapitan Tiago"],a:"Pilosopo Tasyo",e:"Rizal used Paciano’s ideals for the character."},
+{q:"Rizal’s first sorrow was:",o:["Death of Concha","Loss of his dog","Leaving Calamba","Death of his father"],a:"Death of Concha",e:"His sister Concepcion died when he was 4."},
+{q:"Which uncle trained Rizal in painting & sculpture?",o:["Manuel","Gregorio","Jose","Bernardo"],a:"Jose",e:"Uncle Jose Alberto honed his artistic skills."},
+{q:"Maestro Justiniano Cruz taught in which town where Rizal boarded?",o:["Tanauan","Biñan","Tayabas","Pagsanjan"],a:"Biñan",e:"Rizal studied under him 1870-71 in Biñan."},
+{q:"Rizal’s pet dog’s name:",o:["Fidel","Verdad","Usman","Pilage"],a:"Usman",e:"Accounts note a black dog named Usman."},
+{q:"Which early poem shows devotion to the Child Jesus?",o:["Al Niño Jesus","A La Virgen Maria","Mi Primera Inspiracion","Sa Aking Mga Kabata"],a:"Al Niño Jesus",e:"Written at age eight, it praises the Infant Jesus."},
+{q:"Rizal’s mother was jailed in 1871 for allegedly:",o:["Helping rebels escape","Attempted poisoning","Non-payment of taxes","Teaching without a permit"],a:"Attempted poisoning",e:"She was wrongfully accused over a quarrel with a relative."},
+{q:"Young Jose carved a statue of ____ that impressed town folk.",o:["Sacred Heart","St Joseph","Immaculate Conception","St Michael"],a:"Sacred Heart",e:"His wooden Sacred Heart still exists at Ateneo."},
+{q:"How many siblings did Rizal have (including himself)?",o:["9","11","13","12"],a:"11",e:"He was the seventh of 11 children."},
+{q:"Who kept Rizal’s *Mi Último Adiós* in an alcohol stove?",o:["Paciano","Trinidad","Josephine","Saturnina"],a:"Trinidad",e:"Rizal whispered ‘There is something in it’ to Trining."},
+{q:"Which sibling’s husband was denied Christian burial, angering Rizal?",o:["Lucia","Maria","Narcisa","Soledad"],a:"Lucia",e:"Her spouse Mariano Herbosa was refused burial."},
+{q:"Uncle Gregorio’s key lesson to Rizal was to:",o:["Fight bullies","Think independently","Save money","Learn fencing"],a:"Think independently",e:"He told Pepe to use his own head always."},
+{q:"The tale of the moth told by his mother emphasized:",o:["Obedience","Bravery","Value of light and sacrifice","Patience"],a:"Value of light and sacrifice",e:"It warned about blind attraction to ‘light’."},
+{q:"Jose’s father was primarily a:",o:["Government clerk","Educated farmer","Ship captain","Sugar trader"],a:"Educated farmer",e:"Francisco managed and leased land in Calamba."},
+{q:"Which sibling earned the nickname ‘Neneng’?",o:["Saturnina","Narcisa","Olimpia","Soledad"],a:"Saturnina",e:"She later married Manuel Hidalgo."},
+{q:"The Rizal family claimed distant ancestry from which nationality?",o:["Chinese","Spanish","Malay","Indonesian"],a:"Chinese",e:"Their Mercado line descended from Domingo Lam-co."},
+{q:"Rizal first learned to read at age:",o:["3","5","7","4"],a:"5",e:"By five he was already reading Spanish stories."},
+
+// ========= EXTRA (2 sample qs) =========
+{q:"City where *Noli Me Tangere* was printed in 1887:",o:["Paris","Berlin","Madrid","Vienna"],a:"Berlin",e:"Printed at Berliner Buch-druckerei for about 300 pesos."},
+{q:"Who loaned Rizal funds to print the Noli?",o:["Antonio Luna","Maximo Viola","Graciano Lopez Jaena","Ferdinand Blumentritt"],a:"Maximo Viola",e:"Viola advanced 300 pesos for the 2 000-copy run."}
+];
+
+// -------------- EXAM LOGIC --------------
+const shuffle = arr => arr.sort(()=>Math.random()-0.5);
+const exam   = shuffle([...questionBank]);   // full 60 shuffled
+let idx = 0, score = 0;
+const userAns = Array(exam.length).fill(null);
+
+const card      = document.getElementById("card"),
+      prevBtn   = document.getElementById("prevBtn"),
+      nextBtn   = document.getElementById("nextBtn"),
+      finishBtn = document.getElementById("finishBtn"),
+      results   = document.getElementById("results");
+
+function feedbackTxt(q,chosen){
+  return chosen===q.a ? `Correct! ${q.e}` : `Incorrect. ${q.e}`;
+}
+
+function renderQ(){
+  const q = exam[idx], answered = userAns[idx]!==null;
+  card.innerHTML = `
+    <p><strong>Question ${idx+1}/${exam.length}</strong><br>${q.q}</p>
+    <div class="options">
+      ${shuffle([...q.o]).map(opt=>`
+        <label>
+          <input type="radio" name="opt" value="${opt}"
+                 ${answered?'disabled':''} ${userAns[idx]===opt?'checked':''}/>
+          ${opt}
+        </label>`).join('')}
+    </div>
+    <div id="fb" class="feedback ${answered?(userAns[idx]===q.a?'correct':'incorrect'):''}">
+      ${answered?feedbackTxt(q,userAns[idx]):''}
+    </div>`;
+  prevBtn.disabled  = idx===0;
+  nextBtn.disabled  = idx===exam.length-1;
+}
+
+// answer handler
+card.addEventListener('change',e=>{
+  if(e.target.name!=="opt") return;
+  if(userAns[idx]!==null)   return;   // already answered
+  const sel = e.target.value;
+  userAns[idx] = sel;
+  if(sel===exam[idx].a) score++;
+  card.querySelectorAll('input[name="opt"]').forEach(r=>r.disabled=true);
+  document.getElementById('fb').className =
+      'feedback '+(sel===exam[idx].a?'correct':'incorrect');
+  document.getElementById('fb').innerHTML = feedbackTxt(exam[idx],sel);
+});
+
+function prevQ(){ idx--; renderQ(); }
+function nextQ(){ idx++; renderQ(); }
+function finishExam(){
+  renderQ();   // show last viewed Q with feedback
+  results.innerHTML = `<h2>Score: ${score} / ${exam.length}</h2>
+    <p>Use Prev/Next to review your answers and explanations.</p>`;
+  finishBtn.disabled = true;
+}
+
+renderQ();    // initial call
+</script>
+</body>
+</html>
